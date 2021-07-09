@@ -27,7 +27,7 @@ class ProviderController extends Controller
      * @return void
      */
     public function index(){
-        $providers = Provider::paginate(10);
+        $providers = Provider::paginate(5);
         return view('providers.list_providers')
         ->with('providers', $providers);
     }

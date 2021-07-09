@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Provider
+ * Class Product
  */
 class Product extends Model
 {
-    protected $table = 'Product';
+    protected $table = 'product';
 
-    protected $primaryKey = 'id_product';
+    protected $primaryKey = 'idProduct';
 
 	public $timestamps = false;
 

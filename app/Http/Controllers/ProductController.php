@@ -17,8 +17,7 @@ class ProductController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
         setlocale(LC_TIME, config('app.locale'));
 
@@ -48,9 +47,9 @@ class ProductController extends Controller
         if($request->hasFile("photo") && $request->has("name") && $request->has("sku") &&
             $request->has("presentation") && $request->has("volume") && $request->has("unit")){
 
-            //https://res.cloudinary.com/dftejnbqx/image/upload/v1625683897/
+            //Upload Image
             $name_file = cloudinary()->upload($request->file('photo')->getRealPath())->getPublicId();
-            //dd($name_file);
+
             $product = new Product();
             $product->name = $request->name;
             $product->sku = $request->sku;
@@ -72,47 +71,71 @@ class ProductController extends Controller
     }
 
     /**
-     * Get all providers.
+     * Get All Products.
      *
      * @return void
      */
-    public function edit(Request $request){
-        $providers = Provider::all();
-        return response()->json($providers);
+    public function getProducts(Request $request){
+        $product = Product::paginate(5);
+        return response()->json($product);
     }
 
+    /**
+     * Get One Product.
+     *
+     * @return void
+     */
+    public function getProduct(Request $request){
+        $product = Product::find($request->id);
+        return response()->json($product);
+    }
+
+    /**
+     * Update a product.
+     *
+     * @return void
+     */
     public function update(Request $request){
         $http_response = array("message" => "Error", "response" => false);
-
         $product = Product::find($request->id);
+        $update = false;
 
-        if($request->name !== $product->name){
-            $product = Product::find($request->id)
-            ->update(["name" => $request->name]);
+        if($request->has("name") && $request->name !== $product->name){
+            $new_product = Product::find($request->id)
+            ->update(["name" => $request->name, "update_date" => date("Y-m-d H:i:s")]);
+            $update = true;
         }
-        if($request->sku !== $product->sku){
-            $product = Product::find($request->id)
-            ->update(["sku" => $request->sku]);
+        if($request->has("sku") && $request->sku !== $product->sku){
+            $new_product = Product::find($request->id)
+            ->update(["sku" => $request->sku, "update_date" => date("Y-m-d H:i:s")]);
+            $update = true;
         }
-        if($request->presentation !== $product->presentation){
-            $product = Product::find($request->id)
-            ->update(["presentation" => $request->presentation]);
+        if($request->has("presentation") && $request->presentation !== $product->presentation){
+            $new_product = Product::find($request->id)
+            ->update(["presentation" => $request->presentation, "update_date" => date("Y-m-d H:i:s")]);
+            $update = true;
         }
-        if($request->volume !== $product->volume){
-            $product = Product::find($request->id)
-            ->update(["volume" => $request->volume]);
+        if($request->has("volume") && $request->volume !== $product->volume){
+            $new_product = Product::find($request->id)
+            ->update(["volume" => $request->volume, "update_date" => date("Y-m-d H:i:s")]);
+            $update = true;
         }
-        if($request->unit !== $product->unit){
-            $product = Product::find($request->id)
-            ->update(["unit" => $request->unit]);
+        if($request->has("unit") && $request->unit !== $product->unit){
+            $new_product = Product::find($request->id)
+            ->update(["unit" => $request->unit, "update_date" => date("Y-m-d H:i:s")]);
+            $update = true;
         }
-        if($request->photo !== $product->photo){
-            $product = Product::find($request->id)
-            ->update(["photo" => $request->photo]);
+        if($request->hasFile("photo") && $request->photo !== $product->photo){
+            $name_file = cloudinary()->upload($request->file('photo')->getRealPath())->getPublicId();
+            $new_product = Product::find($request->id)
+            ->update(["photo" => $name_file, "update_date" => date("Y-m-d H:i:s")]);
+            $update = true;
         }
 
-        $http_response["message"] = "Producto actualizado exitosamente";
-        $http_response["response"] = true;
+        if($update){
+            $http_response["message"] = "Producto actualizado exitosamente";
+            $http_response["response"] = true;
+        }
 
         return response()->json($http_response);
     }

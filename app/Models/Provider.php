@@ -11,7 +11,7 @@ class Provider extends Model
 {
     protected $table = 'provider';
 
-    protected $primaryKey = 'id_provider';
+    protected $primaryKey = 'idProvider';
 
 	public $timestamps = false;
 

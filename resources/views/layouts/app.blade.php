@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Pro-Insight') }}</title>
+    <title>@yield('title','')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -49,7 +49,7 @@
     
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('title', 'Pro-Insight') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -64,6 +64,21 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('products.index') }}">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('products.provider.index') }}">Precio Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('containers.index') }}">Contenedores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('container.products.index') }}">Contenedor Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('airport.index') }}">Aeropuertos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('orders.index') }}">Pedidos</a>
                         </li>
                     </ul>
 
@@ -106,7 +121,8 @@
 
         <main class="py-4">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-10">
+                    <h1>@yield('title','')</h1>
                     @yield('content')
                 </div>
             </div>

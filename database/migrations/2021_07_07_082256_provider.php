@@ -14,7 +14,7 @@ class Provider extends Migration
     public function up()
     {
         Schema::create('provider', function (Blueprint $table) {
-            $table->id('id_provider');
+            $table->id('idProvider');
             $table->string('name');
             $table->date('creation_date');
             $table->date('update_date');

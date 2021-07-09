@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Proveedores')
 
 @section('content')
 <div class="container">
@@ -18,14 +19,22 @@
                 </tr>
             </thead>
             <tbody id="data">
+            @if(count($providers)>0)
                 @foreach($providers as $provider)
                 <tr>
-                    <th scope="row">{{ $provider->id_provider }}</th>
+                    <th scope="row">{{ $provider->idProvider }}</th>
                     <td>{{ $provider->name }}</td>
                     <td>{{ $provider->creation_date }}</td>
                     <td>{{ $provider->update_date }}</td>
                 </tr>
                 @endforeach
+            @else
+            <tr>
+                <td colspan="11">
+                    <span class="text-muted">No hay datos</span>
+                </td>
+            </tr>
+            @endif
             </tbody>
         </table>
         {{ $providers->links() }}
@@ -55,7 +64,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clean();">Cancelar</button>
-        <button type="button" class="btn btn-primary" onclick="create_provider();">Crear</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="create_provider();">Crear</button>
       </div>
     </div>
   </div>
@@ -91,7 +100,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 })
-                clean();
+                location.reload();
             }else{
                 Swal.fire({
                     position: 'top-end',
